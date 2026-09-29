@@ -1,0 +1,55 @@
+{
+  "schema_version": 1,
+  "name": "example-cards-csv",
+  "source": {
+    "type": "file",
+    "path": "page.html"
+  },
+  "extraction": {
+    "format": "html",
+    "container": "article.card",
+    "fields": [
+      {
+        "name": "title",
+        "selector": "h2",
+        "kind": "text",
+        "required": true,
+        "transforms": [
+          {"op": "normalize_whitespace"}
+        ]
+      },
+      {
+        "name": "price",
+        "selector": ".price",
+        "kind": "text",
+        "required": false,
+        "keep_original": true,
+        "transforms": [
+          {"op": "parse_number", "decimal_separator": "."}
+        ]
+      },
+      {
+        "name": "url",
+        "selector": "a",
+        "kind": "attribute",
+        "attribute": "href",
+        "required": true,
+        "transforms": [
+          {"op": "absolute_url", "base_url": "https://shop.example/catalog"}
+        ]
+      }
+    ]
+  },
+  "deduplicate": {
+    "keys": ["url"]
+  },
+  "export": {
+    "format": "csv",
+    "path": "cards.csv",
+    "mode": "create",
+    "encoding": "utf-8",
+    "delimiter": ",",
+    "spreadsheet_safe": false,
+    "report_path": "cards.errors.jsonl"
+  }
+}

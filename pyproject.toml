@@ -1,0 +1,39 @@
+[project]
+name = "parsedock"
+version = "0.1.0"
+description = "Extract records from local HTML, XML, or one HTTP GET into JSONL, CSV, or SQLite."
+license = "MIT"
+license-files = ["LICENSE"]
+requires-python = ">=3.10"
+dependencies = [
+    "beautifulsoup4",
+    "requests>=2.32",
+]
+
+[project.optional-dependencies]
+curl = [
+    "curl_cffi>=0.16.3",
+]
+desktop = [
+    "PySide6>=6.8",
+]
+browser = [
+    "playwright>=1.40",
+]
+dev = [
+    "pytest",
+]
+
+[build-system]
+requires = ["setuptools>=69"]
+build-backend = "setuptools.build_meta"
+
+[tool.setuptools.packages.find]
+include = ["parsedock*"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+addopts = "-m \"not browser\""
+markers = [
+    "browser: живой Chromium; не входит в обычный запуск и в обычный CI",
+]

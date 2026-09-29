@@ -1,0 +1,38 @@
+{
+  "schema_version": 1,
+  "name": "example-cards-xml",
+  "source": {
+    "type": "file",
+    "path": "catalog.xml"
+  },
+  "extraction": {
+    "format": "xml",
+    "container": "catalog/item",
+    "fields": [
+      {
+        "name": "title",
+        "selector": "title",
+        "kind": "text",
+        "required": true
+      },
+      {
+        "name": "price",
+        "selector": "price",
+        "kind": "text",
+        "required": false
+      },
+      {
+        "name": "url",
+        "selector": "link",
+        "kind": "attribute",
+        "attribute": "href",
+        "required": true
+      }
+    ]
+  },
+  "export": {
+    "format": "jsonl",
+    "path": "cards-xml.jsonl",
+    "mode": "create"
+  }
+}

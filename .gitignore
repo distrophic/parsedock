@@ -1,0 +1,16 @@
+.venv/
+venv/
+__pycache__/
+*.py[cod]
+.pytest_cache/
+.pytest-tmp/
+*.egg-info/
+dist/
+build/
+output/
+examples/**/*.jsonl
+examples/**/*.csv
+examples/**/*.sqlite
+examples/**/*.sqlite-journal
+books-2.jsonl
+RESULT.MD

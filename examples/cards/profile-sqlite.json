@@ -1,0 +1,22 @@
+{
+  "schema_version": 1,
+  "name": "example-cards-sqlite",
+  "source": {
+    "type": "file",
+    "path": "page.html"
+  },
+  "extraction": {
+    "format": "html",
+    "container": "article.card",
+    "fields": [
+      {"name": "title", "selector": "h2", "kind": "text", "required": true},
+      {"name": "price", "selector": ".price", "kind": "text", "required": false},
+      {"name": "url", "selector": "a", "kind": "attribute", "attribute": "href", "required": true}
+    ]
+  },
+  "export": {
+    "format": "sqlite",
+    "path": "cards.sqlite",
+    "mode": "create"
+  }
+}

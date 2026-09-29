@@ -1,0 +1,42 @@
+{
+  "schema_version": 1,
+  "name": "example-cards-url",
+  "source": {
+    "type": "url",
+    "url": "https://example.invalid/cards",
+    "timeout_seconds": 20,
+    "max_response_bytes": 2000000,
+    "max_redirects": 5,
+    "trust_private_networks": false
+  },
+  "extraction": {
+    "format": "html",
+    "container": "article.card",
+    "fields": [
+      {
+        "name": "title",
+        "selector": "h2",
+        "kind": "text",
+        "required": true
+      },
+      {
+        "name": "price",
+        "selector": ".price",
+        "kind": "text",
+        "required": false
+      },
+      {
+        "name": "url",
+        "selector": "a",
+        "kind": "attribute",
+        "attribute": "href",
+        "required": true
+      }
+    ]
+  },
+  "export": {
+    "format": "jsonl",
+    "path": "cards-url.jsonl",
+    "mode": "create"
+  }
+}

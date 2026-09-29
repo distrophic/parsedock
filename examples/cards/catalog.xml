@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<catalog>
+  <price>999</price>
+  <item id="kettle">
+    <title>Чайник</title>
+    <price>1200</price>
+    <link href="/kettle"/>
+  </item>
+  <item id="mug">
+    <title>Кружка</title>
+    <price>350</price>
+    <link href="/mug"/>
+  </item>
+  <item id="spoon">
+    <title>Ложка</title>
+    <price></price>
+    <link href="/spoon"/>
+  </item>
+</catalog>

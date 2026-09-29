@@ -1,0 +1,19 @@
+{
+  "schema_version": 1,
+  "name": "example-cards-curl",
+  "source": {
+    "type": "url",
+    "url": "https://example.invalid/catalog",
+    "client": "curl_cffi",
+    "impersonate": "chrome",
+    "trust_private_networks": false
+  },
+  "extraction": {
+    "format": "html",
+    "container": "article.card",
+    "fields": [
+      {"name": "title", "selector": "h2", "kind": "text", "required": true}
+    ]
+  },
+  "export": {"format": "jsonl", "path": "cards.jsonl", "mode": "create"}
+}

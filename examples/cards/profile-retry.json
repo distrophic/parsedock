@@ -1,0 +1,27 @@
+{
+  "schema_version": 1,
+  "name": "example-cards-retry",
+  "source": {
+    "type": "url",
+    "url": "https://example.invalid/catalog",
+    "trust_private_networks": false
+  },
+  "reliability": {
+    "max_attempts": 3,
+    "backoff_seconds": 0.5,
+    "backoff_multiplier": 2,
+    "max_backoff_seconds": 8,
+    "jitter": true,
+    "retry_statuses": [429, 500, 502, 503, 504],
+    "min_interval_seconds": 1,
+    "max_retry_after_seconds": 30
+  },
+  "extraction": {
+    "format": "html",
+    "container": "article.card",
+    "fields": [
+      {"name": "title", "selector": "h2", "kind": "text", "required": true}
+    ]
+  },
+  "export": {"format": "jsonl", "path": "cards.jsonl", "mode": "create"}
+}

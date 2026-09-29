@@ -1,0 +1,29 @@
+{
+  "schema_version": 1,
+  "name": "example-cards-pages",
+  "source": {
+    "type": "url",
+    "url": "https://example.invalid/catalog?sort=name",
+    "trust_private_networks": false
+  },
+  "crawl": {
+    "mode": "page_param",
+    "page_param": {"name": "page", "start": 1, "step": 1},
+    "max_pages": 5,
+    "max_depth": 5,
+    "max_duration_seconds": 60,
+    "stop_when_no_new_records": true,
+    "allowed_domains": ["example.invalid"],
+    "obey_robots": true,
+    "robots_on_unavailable": "error"
+  },
+  "extraction": {
+    "format": "html",
+    "container": "article.card",
+    "fields": [
+      {"name": "title", "selector": "h2", "kind": "text", "required": true}
+    ]
+  },
+  "deduplicate": {"keys": ["title"]},
+  "export": {"format": "jsonl", "path": "pages.jsonl", "mode": "create"}
+}
