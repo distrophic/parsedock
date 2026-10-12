@@ -40,7 +40,11 @@ def _leave(code: int) -> None:
     if sys.platform == "win32":
         import ctypes
 
-        # os._exit на Windows всё равно вызывает выгрузку DLL, и Qt падает.
-        handle = ctypes.windll.kernel32.GetCurrentProcess()
-        ctypes.windll.kernel32.TerminateProcess(handle, code & 0xFFFFFFFF)
+        # Без явных типов ctypes портит стек на 64-bit, и процесс падает
+        # ещё до выхода. TerminateProcess не выгружает DLL Qt.
+        kernel32 = ctypes.WinDLL("kernel32", use_last_error=True)
+        kernel32.GetCurrentProcess.restype = ctypes.c_void_p
+        kernel32.TerminateProcess.argtypes = (ctypes.c_void_p, ctypes.c_uint)
+        kernel32.TerminateProcess.restype = ctypes.c_int
+        kernel32.TerminateProcess(kernel32.GetCurrentProcess(), code & 0xFFFFFFFF)
     os._exit(code)

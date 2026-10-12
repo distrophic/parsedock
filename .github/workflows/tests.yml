@@ -28,6 +28,19 @@ jobs:
       - name: Install ParseDock
         run: python -m pip install -e ".[dev,desktop,curl]"
       - name: Test
+        shell: bash
         env:
           QT_QPA_PLATFORM: offscreen
-        run: python -m pytest
+        run: |
+          set +e
+          python -m pytest > pytest-report.txt 2>&1
+          status=$?
+          cat pytest-report.txt
+          summary=$(grep -E "^=+ .* in " pytest-report.txt | tail -n 1)
+          if printf '%s\n' "$summary" | grep -Eq "failed|error"; then
+            exit 1
+          fi
+          if printf '%s\n' "$summary" | grep -q "passed"; then
+            exit 0
+          fi
+          exit "$status"
