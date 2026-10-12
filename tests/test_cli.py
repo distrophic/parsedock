@@ -1,5 +1,4 @@
 import json
-import locale
 import sys
 from pathlib import Path
 
@@ -71,7 +70,7 @@ def test_module_command_runs_the_saved_page(tmp_path):
         capture_output=True,
         check=False,
     )
-    output = completed.stdout.decode(locale.getpreferredencoding(False), errors="replace")
+    output = completed.stdout.decode("utf-8", errors="replace")
     assert completed.returncode == 0
     assert "Записей: 3" in output
     assert (tmp_path / "cards.jsonl").exists()

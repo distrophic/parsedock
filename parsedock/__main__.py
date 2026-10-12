@@ -41,6 +41,7 @@ _EXIT = {
 def main(argv: list[str] | None = None) -> int:
     """Выполнить один профиль. argv без имени программы."""
 
+    _prepare_text_streams()
     args = list(sys.argv[1:] if argv is None else argv)
     if args in (["-h"], ["--help"]):
         print(_USAGE, end="")
@@ -68,6 +69,26 @@ def main(argv: list[str] | None = None) -> int:
         signal.signal(signal.SIGINT, previous)
     print(_summary(job))
     return _EXIT.get(job.state, 1)
+
+
+def _prepare_text_streams() -> None:
+    """Печатать русский текст и в консоли, которая не UTF-8.
+
+    Иначе Windows с кодировкой cp1251 обрывает команду на первой букве
+    «Задание» и код выхода становится 1, хотя файл уже записан.
+    """
+
+    for stream in (sys.stdout, sys.stderr):
+        reconfigure = getattr(stream, "reconfigure", None)
+        if reconfigure is None:
+            continue
+        try:
+            reconfigure(encoding="utf-8", errors="replace")
+        except (OSError, ValueError):
+            try:
+                reconfigure(errors="replace")
+            except (OSError, ValueError):
+                continue
 
 
 def _summary(job: Job) -> str:

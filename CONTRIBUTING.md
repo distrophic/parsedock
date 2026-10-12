@@ -32,4 +32,4 @@ $env:QT_QPA_PLATFORM = "offscreen"
 
 Дополнение `browser` и `playwright install chromium` для обычного прогона не нужны.
 
-Сценарий `.github/workflows/tests.yml` повторяет эту установку на Ubuntu и Windows для Python 3.10 и 3.12. На GitHub он ещё не выполнялся.
+Сценарий `.github/workflows/tests.yml` повторяет эту установку на Ubuntu и Windows для Python 3.10 и 3.12. На Ubuntu перед тестами ставятся библиотеки Qt, без них окно не загружается.
