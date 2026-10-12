@@ -1,9 +1,9 @@
 """Общий конец прогона.
 
-Окно Qt на сервере GitHub после уже успешных тестов роняет процесс:
-на Ubuntu это segmentation fault, на Windows код выхода 1.
-Тесты к этому моменту завершены. Закрываем окна и выходим сразу,
-не дожидаясь разрушения Qt при завершении интерпретатора.
+Окно Qt на сервере GitHub после уже успешных тестов роняет процесс
+при выгрузке библиотек: на Ubuntu это segmentation fault, на Windows
+access violation. Итог тестов к этому моменту уже напечатан.
+Выходим, не давая Qt разобрать свои объекты.
 """
 
 from __future__ import annotations
@@ -26,15 +26,21 @@ def pytest_unconfigure(config) -> None:
         from PySide6.QtWidgets import QApplication
     except Exception:
         return
-    application = QApplication.instance()
-    if application is None:
+    if QApplication.instance() is None:
         return
-    application.closeAllWindows()
-    application.processEvents()
-    application.quit()
     for stream in (sys.stdout, sys.stderr):
         try:
             stream.flush()
         except Exception:
             pass
-    os._exit(_exit_code)
+    _leave(_exit_code)
+
+
+def _leave(code: int) -> None:
+    if sys.platform == "win32":
+        import ctypes
+
+        # os._exit на Windows всё равно вызывает выгрузку DLL, и Qt падает.
+        handle = ctypes.windll.kernel32.GetCurrentProcess()
+        ctypes.windll.kernel32.TerminateProcess(handle, code & 0xFFFFFFFF)
+    os._exit(code)
