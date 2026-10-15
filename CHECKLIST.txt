@@ -22,12 +22,12 @@
 Подготовка к GitHub
 -------------------
 Файлы README.md, CONTRIBUTING.md, SECURITY.md, CHANGELOG.md, LICENSE.
-Репозиторий не публиковался.
+Репозиторий: https://github.com/distrophic/parsedock. Пакета на PyPI нет.
 [ ] В README перечислены только уже сделанные возможности.
 [ ] Ограничения, терминал и запуск кода на месте.
 [ ] Команды установки для Linux и Windows разделены.
 [ ] Первый пример — локальный examples/cards/profile.json.
-[ ] Сценарий CI в описании не назван уже выполненным на GitHub.
+[ ] В README указано, что сценарий CI уже есть на странице Actions.
 
 Запрос
 ------
